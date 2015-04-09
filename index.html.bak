@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tagLinks</title>
+
+    <link href="bootstrap/v3/css/bootstrap.min.css" rel="stylesheet">
+	<link href="jquery/jquery-ui.css" rel="stylesheet">
+	<link href="myCss.css" rel="stylesheet">
+	
+	<script src="jquery/jquery-1.11.2.min.js"></script>
+    <script src="bootstrap/v3/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="jquery/jquery-ui.js"></script>
+	<script src="d3.js"></script>
+	<script src="jtopo.js"></script>
+	<script src="myJS.js"></script>
+	<script src="myJS2.js"></script>
+  </head>
+  
+  <body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<h1 class="text-center">
+					tagLinks
+				</h1>
+				<div class="row">
+					<div class="col-xs-3">
+					
+						<div class="panel-group" id="show">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a data-toggle="collapse" data-parent="#show" 
+											href="#collapse1">
+											显示
+										</a>
+									</div>
+								</div>
+								<div id="collapse1" class="panel-collapse collapse">
+									<div class="panel-body">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-group" id="add">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a data-toggle="collapse" data-parent="#add" 
+											href="#collapse2">
+											增加
+										</a>
+									</div>
+								</div>
+								<div id="collapse2" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li>1</li>
+											<li>2</li>
+											<li>3</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="panel-group" id="delete">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<div class="panel-title">
+										<a data-toggle="collapse" data-parent="#delete" 
+											href="#collapse3">
+											删除
+										</a>
+									</div>
+								</div>
+								<div id="collapse3" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li>1</li>
+											<li>2</li>
+											<li>3</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-9 pull-right" id="content">
+						<div class="tabbable"> <!-- Only required for left/right tabs -->
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#tab1" data-toggle="tab">laysMap</a></li>
+								<li><a href="#tab2" data-toggle="tab">pack</a></li>
+								<li><a href="#tab3" data-toggle="tab">forceMap</a></li>
+								<form id="target" class="navbar-form navbar-right">
+									<input type="text" class="form-control" id="tags" autocomplete="off">
+									<button type="submit" class="btn btn-default">Search</button>
+								</form>
+							</ul>
+							<div class="tab-content outOfContent">
+								
+								<div class="tab-pane active" id="tab1">
+									<div id="Row">
+										<ul class="inline" id="SortableMenu">
+											
+										</ul>
+									</div>
+									<div id="Column">
+										
+									</div>
+								</div>
+								
+								<div class="tab-pane" id="tab2">
+									<canvas id="topo">Your browser does not support HTML5 Canvas.</canvas>
+									
+								</div>
+								
+								<div class="tab-pane" id="tab3">
+									<div id="d3">
+										
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  </body>
+</html>
