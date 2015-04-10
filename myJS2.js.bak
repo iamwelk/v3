@@ -111,7 +111,8 @@
 							.attr("r", 10)
 							.attr("fill", function(d, i){
 								return color(d.group);
-							});
+							})
+							.attr("clicked","false");
 		var eds = d3.selectAll("line")
 					.attr("stroke","#ccc")
 					.attr("stroke-width",1);
@@ -160,7 +161,10 @@
 									highLightLine(d.name);
 								}else{
 									//reset();
-								}								
+								}	
+								console.log("click before");
+								force.start();
+								console.log("click after");
 							})
 							.call(force.drag);
 
@@ -176,9 +180,9 @@
 						.text(function(d){
 							return d.name;
 						});
-
+	
 	force.on("tick", function(){
-		
+		console.log('current tick....')
 		svg_edges.attr("x1",function(d){ return d.source.x; });
 		svg_edges.attr("y1",function(d){ return d.source.y; });
 		svg_edges.attr("x2",function(d){ return d.target.x; });

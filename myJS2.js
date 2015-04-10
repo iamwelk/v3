@@ -161,11 +161,12 @@
 									highLightLine(d.name);
 								}else{
 									//reset();
-								}								
+								}	
+								console.log("click before");
+								force.start();
+								console.log("click after");
 							})
-							.call(force.drag);
-
-							
+							.call(force.drag);							
 							
 	var node_text = svg.selectAll(".nodetext")
 						.data(nodes)
@@ -177,9 +178,9 @@
 						.text(function(d){
 							return d.name;
 						});
-
+	
 	force.on("tick", function(){
-		
+		console.log('current tick....')
 		svg_edges.attr("x1",function(d){ return d.source.x; });
 		svg_edges.attr("y1",function(d){ return d.source.y; });
 		svg_edges.attr("x2",function(d){ return d.target.x; });
