@@ -1,14 +1,16 @@
 ﻿$(function(){
-	var data = $("#Column .rowData");
 	var nodes = [];
-	for(var i = 0; i < data.length; i++){
-		var text = data[i].innerHTML;
-		data[i] = text;
-		var temp = {name:text};
-		nodes.push(temp);
+	var len = $("#Column .colA").length;
+	for(var j = 0; j < len; j++){
+		var data = $("#col"+j+" .rowData");
+		for(var i = 0; i < data.length; i++){
+			var text = data[i].innerHTML;
+			var temp = {name:text, group:j};
+			//console.log(temp);
+			nodes.push(temp);
+		}
 	}
-	//console.log(data.length);
-	//console.log(nodes);
+
 	var edges = [];
 	var relationShip = [
 		{"姓名":"张三", "产品":"P1"},
@@ -58,53 +60,112 @@
 		return false;
 	}
 	
-	for(var i = 0; i < data.length; i++){
-		for(var j = i+1; j < data.length; j++){
-			if( hasRelation(data[i], data[j]) ){
+	for(var i = 0; i < nodes.length; i++){
+		for(var j = i+1; j < nodes.length; j++){
+			if( hasRelation(nodes[i].name, nodes[j].name) ){
 				var tempE = {source:i, target:j};
 				edges.push(tempE);
-				//console.log(data[i] +" "+data[j]);
-				//console.log("source:"+tempE.source+" target:"+tempE.target);
 			}
 		}
 	}
-	//console.log(edges);
+
 	var force = d3.layout.force()
 					.nodes(nodes)
 					.links(edges)
-					.size([1000,500])
-					.linkDistance(300)
-					.charge([-200])
+					.size([800,500])
+					.linkDistance(100)
+					.charge([-500])
 					.start();
 
 	var svg = d3.select("#d3")
 				.append("svg")
-				.attr("width",1000)
+				.attr("width",800)
 				.attr("height",500);
 	
-	//var group = svg.append("g");	
+
 	
 	var svg_edges = svg.selectAll("line")
 							.data(edges)
 							.enter()
 							.append("line")
-							.style("stroke","#ccc")
-							.style("stroke-width",1);
-		
+							.attr("stroke","#ccc")
+							.attr("stroke-width",1)
+							/* .on("mouseover",function(d,i){
+								d3.select(this)
+									.attr("stroke","red")
+									.attr("stroke-width",3);
+							})
+							.on("mouseout",function(d,i){
+								d3.select(this)
+									.attr("stroke","#ccc")
+									.attr("stroke-width",1);
+							}) */;
+	//console.log(edges);	
 	var color = d3.scale.category20();
 				
-	//var g = svg.append("g");
+	function reset(){
+		svg_nodes.each(function(d){
+			d.fixed = false;
+		})
+		var circles = svg.selectAll("circle")
+							.attr("r", 10)
+							.attr("fill", function(d, i){
+								return color(d.group);
+							});
+		var eds = d3.selectAll("line")
+					.attr("stroke","#ccc")
+					.attr("stroke-width",1);
+	}
+	
+	function highLightLine(name){
+		//console.log(name);
+		//console.log(svg_edges);
+		for(var i = 0; i < edges.length; i++){
+			//console.log(edges[i]);
+			if(edges[i].source.name == name || edges[i].target.name == name){
+				//console.log(edges[i]);
+				//var e = d3.selectAll("line");
+				d3.select(svg_edges[0][i])
+					.attr("stroke","red")
+					.attr("stroke-width",3);
+				//console.log(e[0][i]);
+				//console.log(e.length);
+				//console.log("e:"+e);
+			}
+		}
+	}
 	var svg_nodes = svg.selectAll("circle")
 							.data(nodes)
 							.enter()
 							//.append("g")
 							.append("circle")
 							.attr("r",10)
-							.style("fill",function(d,i){
-								return color(i);
+							.attr("clicked","false")
+							.attr("fill",function(d,i){
+								return color(d.group);
+							})
+							.on("click",function(d,i){
+								var cir = d3.select(this);
+								//console.log(cir.attr("clicked"));
+								if(cir.attr("clicked") == "false"){
+									reset();
+									cir.transition()
+										.duration(500)
+										.attr("r",20)
+										.attr("fill","red")
+										.attr("clicked","true");
+									d.fixed = true;
+									d.x = d.px = 400;
+									d.y = d.py = 250;
+									highLightLine(d.name);
+								}else{
+									//reset();
+								}								
 							})
 							.call(force.drag);
-	
+
+							
+							
 	var node_text = svg.selectAll(".nodetext")
 						.data(nodes)
 						.enter()
@@ -115,17 +176,7 @@
 						.text(function(d){
 							return d.name;
 						});
-	 /* var text = svg_nodes.append("text")
-						.attr("dx", 8)
-						.attr("dy", 3)
-						.attr("width", 5)
-						.attr("height", 5)
-						.attr("fill","black")
-						.text(function(d){
-							//console.log(d.name);
-							return d.name;
-						});  */
-	//console.log(text[0][1].innerHTML);
+
 	force.on("tick", function(){
 		
 		svg_edges.attr("x1",function(d){ return d.source.x; });
